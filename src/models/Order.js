@@ -33,6 +33,11 @@ const OrderSchema = new mongoose.Schema({
     payment: {
         amount: Number,
         method: String
+    },
+    userId: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 })
 
