@@ -2,8 +2,7 @@ const Order = require('../models/Order.js')
 
 class OrderRepository {
     async save(order) {
-        const newOrder = new Order(order)
-        await newOrder.save()
+        const newOrder = await Order.create(order)
         return newOrder
     }
 
