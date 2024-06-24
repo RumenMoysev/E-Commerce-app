@@ -1,6 +1,7 @@
 class OrderDelivered {
-    constructor(orderId) {
+    constructor(orderId, streetForDelivery) {
         this.orderId = orderId
+        this.streetForDelivery = streetForDelivery
     }
 }
 
