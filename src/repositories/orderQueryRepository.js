@@ -14,7 +14,7 @@ class OrderQueryRepository {
     }
 
     async findByUserId(userId) {
-        return await OrderReadModel.findOne({userId})
+        return await OrderReadModel.find({userId})
     }
 }
 
