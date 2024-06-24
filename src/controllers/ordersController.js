@@ -85,4 +85,29 @@ router.post('/deliver-order/:id', auth, async (req, res) => {
     }
 })
 
+router.post('/cancel-order/:id', auth, async (req, res) => {
+    try {
+        const order = await queryHandler.findById(req.params.id)
+
+        if (order.userId != req.user._id) {
+            throw new Error('You are not the owner of the order!')
+        }
+
+        await commandHandler.cancelOrder(order, req.params.id)
+
+        const infoForUserBasedOnOrderStatus = {
+            'Pending': 'Order cancelled successfully',
+            'Waiting for confirmation': 'Order cancelled successfully. Your money will be refunded within 14 working days!'
+        }
+
+        res.status(200).json({
+            information: infoForUserBasedOnOrderStatus[order.status]
+        })
+    } catch (err) {
+        res.status(400).json({
+            message: err.message
+        })
+    }
+})
+
 module.exports = router
