@@ -75,3 +75,15 @@
         }
     ]
 }
+--------------------------------------
+{
+    "paymentType": "card",
+    "hasEnoughMoney": true,
+    "streetForDelivery": "ul. Nqkoq si"
+}
+--------------------------------------
+{
+    "paymentType": "bankTransfer",
+    "hasEnoughMoney": false,
+    "streetForDelivery": "ul. Ne se seshtam"
+}
