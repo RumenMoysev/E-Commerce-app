@@ -2,7 +2,7 @@ const { v4: uuidv4 } = require('uuid')
 
 const eventManager = require('../../managers/eventManager.js')
 const OrderCreated = require('../../events/orderCreated.js')
-const OrderRepository = require('../../repositories/orderRepository.js')
+const OrderCommandRepository = require('../../repositories/orderCommandRepository.js')
 
 exports.createOrder = async ({userId, items}) => {
     const orderId = uuidv4()
@@ -18,7 +18,7 @@ exports.createOrder = async ({userId, items}) => {
     const orderCreatedEvent = new OrderCreated(orderId, userId, items, totalAmount)
     await eventManager.saveEvent(orderCreatedEvent)
 
-    const createdOrder = await OrderRepository.save(order)
+    const createdOrder = await OrderCommandRepository.save(order)
     
     return createdOrder
 }
