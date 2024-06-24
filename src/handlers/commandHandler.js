@@ -6,11 +6,13 @@ const OrderRepository = require('../repositories/orderRepository.js')
 const OrderPaid = require('../events/orderPaid.js')
 const OrderConfirmed = require('../events/orderConfirmed.js')
 const OrderDelivered = require('../events/orderDelivered.js')
+const OrderCancelled = require('../events/orderCancelled.js')
 
 const possibleStatusesForEachCase = {
     'OrderPaid': 'Pending',
     'OrderConfirmed': 'Waiting for confirmation',
-    'OrderDelivered': 'Confirmed'
+    'OrderDelivered': 'Confirmed',
+    'OrderCancelled': ['Pending', 'Waiting for confirmation']
 }
 
 async function saveEventAndUpdateReadModel(event) {
@@ -53,7 +55,7 @@ exports.confirmOrder = async (orderId) => {
         throw new Error("You can't confirm this order")
     }
 
-    const orderConfirmedEvent = new OrderConfirmed(orderId)
+    const orderConfirmedEvent = new OrderConfirmed(orderId, order.paymentDetails.streetForDelivery)
     const confirmedOrder = saveEventAndUpdateReadModel(orderConfirmedEvent)
 
     return confirmedOrder
@@ -66,8 +68,17 @@ exports.deliverOrder = async (orderId) => {
         throw new Error("You can't deliver this order")
     }
 
-    const orderDelieveredEvent = new OrderDelivered(orderId)
+    const orderDelieveredEvent = new OrderDelivered(orderId, order.paymentDetails.streetForDelivery)
     const deliveredOrder = saveEventAndUpdateReadModel(orderDelieveredEvent)
 
     return deliveredOrder
+}
+
+exports.cancelOrder = async (order, orderId) => {
+    if (!possibleStatusesForEachCase.OrderCancelled.includes(order.status)) {
+        throw new Error("You can't cancel this order")
+    }
+
+    const orderDelieveredEvent = new OrderCancelled(orderId, order.userId, order.items, order.totalAmount, order.status)
+    saveEventAndUpdateReadModel(orderDelieveredEvent)
 }
