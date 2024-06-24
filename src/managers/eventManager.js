@@ -1,15 +1,11 @@
-const queryHandler = require('../handlers/queryHandler.js')
 const Event = require('../models/Event.js')
 
 exports.saveEvent = async (event) => {
     const newEvent = new Event({
         type: event.constructor.name,
-        data: event
+        data: event,
+        timestamp: Date.now()
     })
 
-    await newEvent.save()
-
-    await queryHandler.update(newEvent)
+    return await newEvent.save()
 }
-
-exports.getEvents = () => Event.find()
