@@ -20,8 +20,16 @@ const OrderItemSchema = new mongoose.Schema({
 })
 
 const OrderCommandSchema = new mongoose.Schema({
+    orderId: {
+        type: String,
+        required: true
+    },
     items: {
         type: [OrderItemSchema],
+        required: true
+    },
+    totalAmount: {
+        type: Number,
         required: true
     },
     status: {
@@ -29,19 +37,15 @@ const OrderCommandSchema = new mongoose.Schema({
         default: 'Pending',
         required: true
     },
-    totalAmount: Number,
-    payment: {
-        amount: Number,
-        method: String
-    },
     userId: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
         required: true
-    }
+    },
+    payment: Object
 })
 
-const OrderCommandModel = mongoose.model('OrderCommandModel', OrderCommandSchema)
+const OrderCommandModel = mongoose.model('CommandModelOrder', OrderCommandSchema)
 
 module.exports = {
     OrderCommandModel,

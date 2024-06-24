@@ -6,11 +6,6 @@ const OrderReadModelSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    userId: {
-        type: mongoose.Types.ObjectId,
-        required: true,
-        ref: 'User'
-    },
     items: {
         type: [OrderItemSchema],
         required: true
@@ -21,11 +16,17 @@ const OrderReadModelSchema = new mongoose.Schema({
     },
     status: {
         type: String,
+        default: 'Pending',
         required: true
+    },
+    userId: {
+        type: mongoose.Types.ObjectId,
+        required: true,
+        ref: 'User'
     },
     paymentDetails: Object
 })
 
-const OrderReadModel = mongoose.model('OrderReadModel', OrderReadModelSchema)
+const OrderReadModel = mongoose.model('QueryModelOrder', OrderReadModelSchema)
 
 module.exports = OrderReadModel
