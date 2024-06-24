@@ -7,13 +7,16 @@ class OrderQueryRepository {
                 return await Order.create({...event.data, status: 'Pending'})
             };
             case 'OrderPaid': {
-                return await Order.findOneAndUpdate({orderId: event.data.orderId}, {status: 'Waiting for confirmation', paymentDetails: event.data.paymentDetails}, {new: true})
+                return await Order.findOneAndUpdate({ orderId: event.data.orderId }, { status: 'Waiting for confirmation', paymentDetails: event.data.paymentDetails }, { new: true} )
             };
             case 'OrderConfirmed': {
                 return await Order.findOneAndUpdate({ orderId: event.data.orderId }, { status: 'Confirmed' }, { new: true })
             };
             case 'OrderDelivered': {
                 return await Order.findOneAndUpdate({ orderId: event.data.orderId }, { status: 'Delivered' }, { new: true })
+            };
+            case 'OrderCancelled': {
+                await Order.findOneAndDelete({ orderId: event.data.orderId })
             }
         }
     }
