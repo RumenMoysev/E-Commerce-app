@@ -19,7 +19,7 @@ const OrderItemSchema = new mongoose.Schema({
     }
 })
 
-const OrderSchema = new mongoose.Schema({
+const OrderCommandSchema = new mongoose.Schema({
     items: {
         type: [OrderItemSchema],
         required: true
@@ -41,9 +41,9 @@ const OrderSchema = new mongoose.Schema({
     }
 })
 
-const Order = mongoose.model('Order', OrderSchema)
+const OrderCommandModel = mongoose.model('OrderCommandModel', OrderCommandSchema)
 
 module.exports = {
-    Order,
+    OrderCommandModel,
     OrderItemSchema
 }
