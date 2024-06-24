@@ -1,3 +1,4 @@
+const queryHandler = require('../handlers/queryHandler.js')
 const Event = require('../models/Event.js')
 
 exports.saveEvent = async (event) => {
@@ -8,7 +9,7 @@ exports.saveEvent = async (event) => {
 
     await newEvent.save()
 
-    //TODO update the readModel
+    await queryHandler.update(newEvent)
 }
 
 exports.getEvents = () => Event.find()
