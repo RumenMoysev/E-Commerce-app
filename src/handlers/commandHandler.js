@@ -4,6 +4,7 @@ const eventManager = require('../managers/eventManager.js')
 const OrderCreated = require('../events/orderCreated.js')
 const OrderRepository = require('../repositories/orderRepository.js')
 const OrderPaid = require('../events/orderPaid.js')
+const OrderConfirmed = require('../events/orderConfirmed.js')
 
 async function saveEventAndUpdateReadModel(event) {
     const newEvent = await eventManager.saveEvent(event)
@@ -11,23 +12,30 @@ async function saveEventAndUpdateReadModel(event) {
     return await OrderRepository.update(newEvent)
 }
 
-exports.createOrder = async ({userId, items}) => {
+exports.createOrder = ({userId, items}) => {
     const orderId = uuidv4()
     const totalAmount = items.reduce((total, item) => total + (item.price * item.quantity), 0)
 
     const orderCreatedEvent = new OrderCreated(orderId, userId, items, totalAmount)
-    const createdOrder = await saveEventAndUpdateReadModel(orderCreatedEvent)
+    const createdOrder = saveEventAndUpdateReadModel(orderCreatedEvent)
     
     return createdOrder
 }
 
-exports.payOrder = async (orderId, totalAmount, paymentDetails) => {
+exports.payOrder = (orderId, totalAmount, paymentDetails) => {
     if(paymentDetails.hasEnoughMoney) {
         const orderPaidEvent = new OrderPaid(orderId, totalAmount, paymentDetails)
         const paidOrder = saveEventAndUpdateReadModel(orderPaidEvent)
 
-        return await paidOrder
+        return paidOrder
     } else {
         throw new Error("You don't have enough money")
     }
+}
+
+exports.confirmOrder = (orderId) => {
+    const orderConfirmedEvent = new OrderConfirmed(orderId)
+    const confirmedOrder = saveEventAndUpdateReadModel(orderConfirmedEvent)
+
+    return confirmedOrder
 }

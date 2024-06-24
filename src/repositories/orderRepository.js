@@ -5,9 +5,12 @@ class OrderQueryRepository {
         switch(event.type) {
             case 'OrderCreated': {
                 return await Order.create({...event.data, status: 'Pending'})
-            }
+            };
             case 'OrderPaid': {
                 return await Order.findOneAndUpdate({orderId: event.data.orderId}, {status: 'Waiting for confirmation', paymentDetails: event.data.paymentDetails}, {new: true})
+            };
+            case 'OrderConfirmed': {
+                return await Order.findOneAndUpdate({ orderId: event.data.orderId }, { status: 'Confirmed' }, { new: true })
             }
         }
     }
