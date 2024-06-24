@@ -1,8 +1,8 @@
-const {Order} = require('../models/Order.js')
+const { OrderCommandModel } = require('../models/OrderCommandModel.js')
 
 class OrderCommandRepository {
     async save(order) {
-        const newOrder = await Order.create(order)
+        const newOrder = await OrderCommandModel.create(order)
         return newOrder
     }
 }
