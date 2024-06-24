@@ -2,23 +2,28 @@ const { v4: uuidv4 } = require('uuid')
 
 const eventManager = require('../managers/eventManager.js')
 const OrderCreated = require('../events/orderCreated.js')
-const OrderCommandRepository = require('../repositories/orderCommandRepository.js')
+const OrderRepository = require('../repositories/orderRepository.js')
+const OrderPaid = require('../events/orderPaid.js')
 
-exports.createOrder = async ({userId, items}) => {
+async function saveEventAndUpdateReadModel(event) {
+    const newEvent = await eventManager.saveEvent(event)
+
+    return await OrderRepository.update(newEvent)
+}
+
+exports.createOrder = ({userId, items}) => {
     const orderId = uuidv4()
     const totalAmount = items.reduce((total, item) => total + (item.price * item.quantity), 0)
-    const order = {
-        orderId: orderId,
-        userId: userId,
-        items,
-        totalAmount,
-        status: 'Pending'
-    }
 
     const orderCreatedEvent = new OrderCreated(orderId, userId, items, totalAmount)
-    await eventManager.saveEvent(orderCreatedEvent)
-
-    const createdOrder = await OrderCommandRepository.save(order)
+    const createdOrder = saveEventAndUpdateReadModel(orderCreatedEvent)
     
     return createdOrder
+}
+
+exports.payOrder = ({orderId, totalAmount, paymentDetails}) => {
+    const orderPaidEvent = new OrderPaid(orderId, totalAmount, paymentDetails)
+    const paidOrder = saveEventAndUpdateReadModel(orderPaidEvent)
+
+    return paidOrder
 }
