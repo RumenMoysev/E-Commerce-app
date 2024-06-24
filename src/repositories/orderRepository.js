@@ -11,6 +11,9 @@ class OrderQueryRepository {
             };
             case 'OrderConfirmed': {
                 return await Order.findOneAndUpdate({ orderId: event.data.orderId }, { status: 'Confirmed' }, { new: true })
+            };
+            case 'OrderDelivered': {
+                return await Order.findOneAndUpdate({ orderId: event.data.orderId }, { status: 'Delivered' }, { new: true })
             }
         }
     }
