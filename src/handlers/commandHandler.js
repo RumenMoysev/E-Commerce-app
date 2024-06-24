@@ -5,6 +5,13 @@ const OrderCreated = require('../events/orderCreated.js')
 const OrderRepository = require('../repositories/orderRepository.js')
 const OrderPaid = require('../events/orderPaid.js')
 const OrderConfirmed = require('../events/orderConfirmed.js')
+const OrderDelivered = require('../events/orderDelivered.js')
+
+const possibleStatusesForEachCase = {
+    'OrderPaid': 'Pending',
+    'OrderConfirmed': 'Waiting for confirmation',
+    'OrderDelivered': 'Confirmed'
+}
 
 async function saveEventAndUpdateReadModel(event) {
     const newEvent = await eventManager.saveEvent(event)
@@ -38,4 +45,15 @@ exports.confirmOrder = (orderId) => {
     const confirmedOrder = saveEventAndUpdateReadModel(orderConfirmedEvent)
 
     return confirmedOrder
+exports.deliverOrder = async (orderId) => {
+    const order = await OrderRepository.findById(orderId)
+
+    if(order.status != possibleStatusesForEachCase.OrderDelivered) {
+        throw new Error("You can't deliver this order")
+    }
+
+    const orderDelieveredEvent = new OrderDelivered(orderId)
+    const deliveredOrder = saveEventAndUpdateReadModel(orderDelieveredEvent)
+
+    return deliveredOrder
 }
