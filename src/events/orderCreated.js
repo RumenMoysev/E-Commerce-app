@@ -4,7 +4,6 @@ class OrderCreated {
         this.userId = userId
         this.items = items
         this.totalAmount = totalAmount
-        this.timestamp = new Date()
     }
 }
 
