@@ -1,13 +1,9 @@
-const OrderQueryRepository = require("../repositories/orderQueryRepository.js")
-
-exports.update = async (event) => {
-    return await OrderQueryRepository.update(event)
-}
+const OrderRepository = require("../repositories/orderRepository.js")
 
 exports.findById = async (orderId) => {
-    return await OrderQueryRepository.findById(orderId)
+    return await OrderRepository.findById(orderId)
 }
 
 exports.findByUserId = async (userId) => {
-    return await OrderQueryRepository.findByUserId(userId)
+    return await OrderRepository.findByUserId(userId)
 }
