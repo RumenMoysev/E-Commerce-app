@@ -29,7 +29,13 @@ exports.createOrder = ({userId, items}) => {
     return createdOrder
 }
 
-exports.payOrder = (orderId, totalAmount, paymentDetails) => {
+exports.payOrder = async (orderId, totalAmount, paymentDetails) => {
+    const order = await OrderRepository.findById(orderId)
+
+    if (order.status != possibleStatusesForEachCase.OrderPaid) {
+        throw new Error("You can't pay this order")
+    }
+
     if(paymentDetails.hasEnoughMoney) {
         const orderPaidEvent = new OrderPaid(orderId, totalAmount, paymentDetails)
         const paidOrder = saveEventAndUpdateReadModel(orderPaidEvent)
@@ -40,11 +46,19 @@ exports.payOrder = (orderId, totalAmount, paymentDetails) => {
     }
 }
 
-exports.confirmOrder = (orderId) => {
+exports.confirmOrder = async (orderId) => {
+    const order = await OrderRepository.findById(orderId)
+
+    if (order.status != possibleStatusesForEachCase.OrderConfirmed) {
+        throw new Error("You can't confirm this order")
+    }
+
     const orderConfirmedEvent = new OrderConfirmed(orderId)
     const confirmedOrder = saveEventAndUpdateReadModel(orderConfirmedEvent)
 
     return confirmedOrder
+}
+
 exports.deliverOrder = async (orderId) => {
     const order = await OrderRepository.findById(orderId)
 
