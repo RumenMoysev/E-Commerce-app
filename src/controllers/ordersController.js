@@ -73,4 +73,16 @@ router.post('/confirm-order/:id', auth, async (req, res) => {
     }
 })
 
+router.post('/deliver-order/:id', auth, async (req, res) => {
+    try {
+        const deliveredOrder = await commandHandler.deliverOrder(req.params.id)
+
+        res.status(200).json(deliveredOrder)
+    } catch (err) {
+        res.status(400).json({
+            message: err.message
+        })
+    }
+})
+
 module.exports = router
