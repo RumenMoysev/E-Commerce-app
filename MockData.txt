@@ -1,0 +1,77 @@
+{
+    "userId": "6675dc16c3ecae28534dfc51",
+    "items": [
+        {
+            "id": "1",
+            "name": "GPU",
+            "price": 1000,
+            "quantity": 1
+        }
+    ]
+}
+-------------------------------------
+{
+    "userId": "6675dc16c3ecae28534dfc51",
+    "items": [
+        {
+            "id": "2",
+            "name": "Phone",
+            "price": 1200,
+            "quantity": 2
+        }
+    ]
+}
+--------------------------------------
+{
+    "userId": "6675dc16c3ecae28534dfc51",
+    "items": [
+        {
+            "id": "1",
+            "name": "GPU",
+            "price": 1000,
+            "quantity": 1
+        },
+        {
+            "id": "2",
+            "name": "Phone",
+            "price": 1200,
+            "quantity": 2
+        }
+    ]
+}
+--------------------------------------
+{
+    "userId": "6675dc16c3ecae28534dfc51",
+    "items": [
+        {
+            "id": "3",
+            "name": "Monitor",
+            "price": 500,
+            "quantity": 3
+        }
+    ]
+}
+--------------------------------------
+{
+    "userId": "6675dc16c3ecae28534dfc51",
+    "items": [
+        {
+            "id": "1",
+            "name": "GPU",
+            "price": 1000,
+            "quantity": 1
+        },
+        {
+            "id": "2",
+            "name": "Phone",
+            "price": 1200,
+            "quantity": 2
+        },
+        {
+            "id": "3",
+            "name": "Monitor",
+            "price": 500,
+            "quantity": 3
+        }
+    ]
+}
