@@ -11,19 +11,23 @@ async function saveEventAndUpdateReadModel(event) {
     return await OrderRepository.update(newEvent)
 }
 
-exports.createOrder = ({userId, items}) => {
+exports.createOrder = async ({userId, items}) => {
     const orderId = uuidv4()
     const totalAmount = items.reduce((total, item) => total + (item.price * item.quantity), 0)
 
     const orderCreatedEvent = new OrderCreated(orderId, userId, items, totalAmount)
-    const createdOrder = saveEventAndUpdateReadModel(orderCreatedEvent)
+    const createdOrder = await saveEventAndUpdateReadModel(orderCreatedEvent)
     
     return createdOrder
 }
 
-exports.payOrder = ({orderId, totalAmount, paymentDetails}) => {
-    const orderPaidEvent = new OrderPaid(orderId, totalAmount, paymentDetails)
-    const paidOrder = saveEventAndUpdateReadModel(orderPaidEvent)
+exports.payOrder = async (orderId, totalAmount, paymentDetails) => {
+    if(paymentDetails.hasEnoughMoney) {
+        const orderPaidEvent = new OrderPaid(orderId, totalAmount, paymentDetails)
+        const paidOrder = saveEventAndUpdateReadModel(orderPaidEvent)
 
-    return paidOrder
+        return await paidOrder
+    } else {
+        throw new Error("You don't have enough money")
+    }
 }
