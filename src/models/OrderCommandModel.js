@@ -42,7 +42,22 @@ const OrderCommandSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    payment: Object
+    paymentDetails: {
+        type: {
+            paymentType: {
+                type: String,
+                required: true
+            },
+            hasEnoughMoney: {
+                type: Boolean,
+                required: true
+            },
+            streetForDelivery: {
+                type: String,
+                required: true
+            }
+        }
+    }
 })
 
 const OrderCommandModel = mongoose.model('CommandModelOrder', OrderCommandSchema)

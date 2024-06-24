@@ -24,7 +24,22 @@ const OrderReadModelSchema = new mongoose.Schema({
         required: true,
         ref: 'User'
     },
-    paymentDetails: Object
+    paymentDetails: {
+        type: {
+            paymentType: {
+                type: String,
+                required: true
+            },
+            hasEnoughMoney: {
+                type: Boolean,
+                required: true
+            },
+            streetForDelivery: {
+                type: String,
+                required: true
+            }
+        }
+    }
 })
 
 const OrderReadModel = mongoose.model('QueryModelOrder', OrderReadModelSchema)
