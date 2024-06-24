@@ -1,4 +1,4 @@
-const Order = require('../models/Order.js')
+const {Order} = require('../models/Order.js')
 
 class OrderRepository {
     async save(order) {
