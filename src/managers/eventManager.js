@@ -9,3 +9,5 @@ exports.saveEvent = async (event) => {
 
     return await newEvent.save()
 }
+
+exports.getEvents = () => Event.find()
