@@ -1,7 +1,7 @@
 {
   "name": "e-commerce-app",
   "version": "1.0.0",
-  "description": "This repository includes a REST server skeleton which im going to use in my projects",
+  "description": "An E-Commerce RESTful server using DDD, CQRS and ES",
   "main": "index.js",
   "scripts": {
     "start": "nodemon ./src/app.js"
