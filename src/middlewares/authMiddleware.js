@@ -5,7 +5,9 @@ exports.auth = async (req, res, next) => {
     const token = req.header('x-authorization')
 
     if (!token) {
-        next()
+        res.status(401).json({
+            message: 'You are not authorized!'
+        })
     } else {
         try {
             const decodedToken = await jwt.verify(token, SECRET)
