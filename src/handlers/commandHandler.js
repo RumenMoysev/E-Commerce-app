@@ -80,5 +80,5 @@ exports.cancelOrder = async (order, orderId) => {
     }
 
     const orderDelieveredEvent = new OrderCancelled(orderId, order.userId, order.items, order.totalAmount, order.status)
-    saveEventAndUpdateReadModel(orderDelieveredEvent)
+    await saveEventAndUpdateReadModel(orderDelieveredEvent)
 }
