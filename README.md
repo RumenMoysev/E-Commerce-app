@@ -116,7 +116,7 @@ POST http://localhost:3030/orders/
 -header "Content-Type: application/json"
 -header "X-Authorization: JWT token from login/register"
 -body '{
-    "userId": "the user id from login/register  ",
+    "userId": "the user id from login/register",
     "items": [
         {
             "id": "3",
