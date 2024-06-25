@@ -1,5 +1,7 @@
 # E-Commerce-app
 
+<img alt="GitHub last commit (by committer)" src="https://img.shields.io/github/last-commit/RumenMoysev/E-Commerce-app">
+
 This is an e-commerce RESTful server focusing on the Orders Management bounded context. It implements CQRS and Event Sourcing using MongoDB. The application allows creating, paying, cancelling, confirming, delivering and retrieving orders. It also includes user authentication and authorization. Unit tests are provided for the event manager and order handler. You can find mock data to test the application yourself in the file MockData.txt.
 
 ## Table of Contents
@@ -114,7 +116,7 @@ POST http://localhost:3030/orders/
 -header "Content-Type: application/json"
 -header "X-Authorization: JWT token from login/register"
 -body '{
-    "userId": "the user id from login/register",
+    "userId": "the user id from login/register  ",
     "items": [
         {
             "id": "3",
